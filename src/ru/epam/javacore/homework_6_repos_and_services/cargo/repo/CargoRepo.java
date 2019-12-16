@@ -12,7 +12,7 @@ import static ru.epam.javacore.homework_6_repos_and_services.storage.Storage.car
 public class CargoRepo implements Repo {
 
     @Override
-    public Cargo[] get() {
+    public Cargo[] getAll() {
         Cargo[] nonNullCargos;
         int entries = 0;
         for (Cargo cargo : cargos) {
@@ -43,13 +43,16 @@ public class CargoRepo implements Repo {
 
     @Override
     public void delete(long id) {
-        for (int i = 0; i < cargos.length - 1; i++) {
+        Cargo[] newCargos = new Cargo[cargos.length];
+        for (int i = 0, j = 0; i < cargos.length - 1; i++) {
             Cargo cargo = cargos[i];
             if (cargo != null && Long.valueOf(id).equals(cargo.getId())) {
-                cargos[i] = null;
-                break;
+                cargoIndex--;
+            } else {
+                newCargos[j++] = cargo;
             }
         }
+        cargos = newCargos;
     }
 
     @Override

@@ -4,7 +4,7 @@ import ru.epam.javacore.homework_6_repos_and_services.carrier.domain.Carrier;
 
 public class CarrierService implements Service {
     @Override
-    public Carrier[] get() {
+    public Carrier[] getAll() {
         return new Carrier[0];
     }
 

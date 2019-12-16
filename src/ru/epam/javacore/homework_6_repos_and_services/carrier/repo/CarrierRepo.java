@@ -11,7 +11,7 @@ import static ru.epam.javacore.homework_6_repos_and_services.storage.Storage.car
 
 public class CarrierRepo implements Repo {
     @Override
-    public Carrier[] get() {
+    public Carrier[] getAll() {
         Carrier[] nonNullCarriers;
         int entries = 0;
         for (Carrier carrier : carriers) {
@@ -44,13 +44,16 @@ public class CarrierRepo implements Repo {
 
     @Override
     public void delete(long id) {
-        for (int i = 0; i < carriers.length - 1; i++) {
+        Carrier[] newCarriers = new Carrier[carriers.length];
+        for (int i = 0, j = 0; i < carriers.length - 1; i++) {
             Carrier carrier = carriers[i];
             if (carrier != null && Long.valueOf(id).equals(carrier.getId())) {
-                carriers[i] = null;
-                break;
+                carrierIndex--;
+            } else {
+                newCarriers[j++] = carrier;
             }
         }
+        carriers = newCarriers;
     }
 
     @Override

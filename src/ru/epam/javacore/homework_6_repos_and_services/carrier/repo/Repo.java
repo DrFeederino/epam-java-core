@@ -3,7 +3,7 @@ package ru.epam.javacore.homework_6_repos_and_services.carrier.repo;
 import ru.epam.javacore.homework_6_repos_and_services.carrier.domain.Carrier;
 
 public interface Repo {
-    Carrier[] get();
+    Carrier[] getAll();
 
     void add(Carrier carrier);
 

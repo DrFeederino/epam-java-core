@@ -3,7 +3,7 @@ package ru.epam.javacore.homework_6_repos_and_services.transportation.service;
 import ru.epam.javacore.homework_6_repos_and_services.transportation.domain.Transportation;
 
 public interface Service {
-    Transportation[] get();
+    Transportation[] getAll();
 
     void add(Transportation transportation);
 

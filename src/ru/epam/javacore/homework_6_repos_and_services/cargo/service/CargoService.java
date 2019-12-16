@@ -5,7 +5,7 @@ import ru.epam.javacore.homework_6_repos_and_services.cargo.domain.Cargo;
 public class CargoService implements Service {
 
     @Override
-    public Cargo get() {
+    public Cargo getAll() {
         return null;
     }
 

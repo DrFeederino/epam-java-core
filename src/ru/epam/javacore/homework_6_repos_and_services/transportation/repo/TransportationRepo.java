@@ -9,7 +9,7 @@ import static ru.epam.javacore.homework_6_repos_and_services.storage.Storage.tra
 
 public class TransportationRepo implements Repo {
     @Override
-    public Transportation[] get() {
+    public Transportation[] getAll() {
         Transportation[] nonNullTransportations;
         int entries = 0;
         for (Transportation transportation : transportations) {
@@ -42,13 +42,16 @@ public class TransportationRepo implements Repo {
 
     @Override
     public void delete(long id) {
-        for (int i = 0; i < transportations.length - 1; i++) {
+        Transportation[] newTransportations = new Transportation[transportations.length];
+        for (int i = 0, j = 0; i < transportations.length - 1; i++) {
             Transportation transportation = transportations[i];
             if (transportation != null && Long.valueOf(id).equals(transportation.getId())) {
-                transportations[i] = null;
-                break;
+                transportationIndex--;
+            } else {
+                newTransportations[j++] = transportation;
             }
         }
+        transportations = newTransportations;
     }
 
     @Override

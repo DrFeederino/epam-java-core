@@ -4,7 +4,7 @@ import ru.epam.javacore.homework_6_repos_and_services.transportation.domain.Tran
 
 public class TransportationService implements Service {
     @Override
-    public Transportation[] get() {
+    public Transportation[] getAll() {
         return new Transportation[0];
     }
 
