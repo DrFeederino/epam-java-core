@@ -2,29 +2,14 @@ package ru.epam.javacore.homework_6_repos_and_services.transportation.service;
 
 import ru.epam.javacore.homework_6_repos_and_services.transportation.domain.Transportation;
 
-public class TransportationService implements Service {
-    @Override
-    public Transportation[] getAll() {
-        return new Transportation[0];
-    }
+public interface TransportationService {
+    Transportation[] getAll();
 
-    @Override
-    public void add(Transportation transportation) {
+    void add(Transportation transportation);
 
-    }
+    void delete(long id);
 
-    @Override
-    public void delete(long id) {
+    Transportation findById(long id);
 
-    }
-
-    @Override
-    public Transportation findById(long id) {
-        return null;
-    }
-
-    @Override
-    public void printAll() {
-
-    }
+    void printAll();
 }

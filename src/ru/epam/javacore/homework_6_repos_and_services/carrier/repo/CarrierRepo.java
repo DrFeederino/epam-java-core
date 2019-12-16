@@ -1,89 +1,17 @@
 package ru.epam.javacore.homework_6_repos_and_services.carrier.repo;
 
 import ru.epam.javacore.homework_6_repos_and_services.carrier.domain.Carrier;
-import ru.epam.javacore.homework_6_repos_and_services.common.utils.ArrayUtils;
-import ru.epam.javacore.homework_6_repos_and_services.storage.IdGenerator;
 
-import java.util.Objects;
+public interface CarrierRepo {
+    Carrier[] getAll();
 
-import static ru.epam.javacore.homework_6_repos_and_services.storage.Storage.carrierIndex;
-import static ru.epam.javacore.homework_6_repos_and_services.storage.Storage.carriers;
+    void add(Carrier carrier);
 
-public class CarrierRepo implements Repo {
-    @Override
-    public Carrier[] getAll() {
-        Carrier[] nonNullCarriers;
-        int entries = 0;
-        for (Carrier carrier : carriers) {
-            if (carrier != null) {
-                entries++;
-            }
-        }
-        nonNullCarriers = new Carrier[entries];
-        for (int i = 0, j = 0; i < carriers.length; i++) {
-            Carrier carrier = carriers[i];
-            if (carrier != null) {
-                nonNullCarriers[j++] = carrier;
-            }
-        }
-        return nonNullCarriers;
-    }
+    void delete(long id);
 
-    @Override
-    public void add(Carrier carrier) {
-        carrier.setId(IdGenerator.generateId());
-        carriers[carrierIndex] = carrier;
-        carrierIndex++;
+    Carrier findById(long id);
 
-        if (carrierIndex == carriers.length) {
-            Carrier[] newCarriers = new Carrier[carriers.length * 2];
-            ArrayUtils.copyArray(carriers, newCarriers);
-            carriers = newCarriers;
-        }
-    }
+    Carrier[] findByName(String name);
 
-    @Override
-    public void delete(long id) {
-        Carrier[] newCarriers = new Carrier[carriers.length];
-        for (int i = 0, j = 0; i < carriers.length - 1; i++) {
-            Carrier carrier = carriers[i];
-            if (carrier != null && Long.valueOf(id).equals(carrier.getId())) {
-                carrierIndex--;
-            } else {
-                newCarriers[j++] = carrier;
-            }
-        }
-        carriers = newCarriers;
-    }
-
-    @Override
-    public Carrier findById(long id) {
-        for (Carrier carrier : carriers) {
-            if (carrier != null && Long.valueOf(id).equals(carrier.getId())) {
-                return carrier;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public Carrier[] findByName(String name) {
-        Carrier[] result = new Carrier[carriers.length];
-
-        int curIndex = 0;
-        for (Carrier carrier : carriers) {
-            if (carrier != null && Objects.equals(carrier.getName(), name)) {
-                result[curIndex++] = carrier;
-            }
-        }
-        Carrier[] trimmedResult = new Carrier[curIndex];
-        ArrayUtils.copyOfRangeArray(result, trimmedResult, curIndex);
-        return trimmedResult;
-    }
-
-    @Override
-    public void printAll() {
-        ArrayUtils.printArray(carriers);
-    }
+    void printAll();
 }

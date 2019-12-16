@@ -2,34 +2,17 @@ package ru.epam.javacore.homework_6_repos_and_services.carrier.service;
 
 import ru.epam.javacore.homework_6_repos_and_services.carrier.domain.Carrier;
 
-public class CarrierService implements Service {
-    @Override
-    public Carrier[] getAll() {
-        return new Carrier[0];
-    }
+public interface CarrierService {
+    Carrier[] getAll();
 
-    @Override
-    public void add(Carrier carrier) {
+    void add(Carrier carrier);
 
-    }
+    void delete(long id);
 
-    @Override
-    public void delete(long id) {
+    Carrier findById(long id);
 
-    }
+    Carrier[] findByName(String name);
 
-    @Override
-    public Carrier findById(long id) {
-        return null;
-    }
+    void printAll();
 
-    @Override
-    public Carrier[] findByName(String name) {
-        return new Carrier[0];
-    }
-
-    @Override
-    public void printAll() {
-
-    }
 }

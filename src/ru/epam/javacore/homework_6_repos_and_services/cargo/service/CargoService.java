@@ -2,35 +2,17 @@ package ru.epam.javacore.homework_6_repos_and_services.cargo.service;
 
 import ru.epam.javacore.homework_6_repos_and_services.cargo.domain.Cargo;
 
-public class CargoService implements Service {
+public interface CargoService {
+    Cargo getAll();
 
-    @Override
-    public Cargo getAll() {
-        return null;
-    }
+    void add();
 
-    @Override
-    public void add() {
+    void delete();
 
-    }
+    Cargo findById();
 
-    @Override
-    public void delete() {
+    Cargo[] findByName();
 
-    }
+    void printAll();
 
-    @Override
-    public Cargo findById() {
-        return null;
-    }
-
-    @Override
-    public Cargo[] findByName() {
-        return new Cargo[0];
-    }
-
-    @Override
-    public void printAll() {
-
-    }
 }
