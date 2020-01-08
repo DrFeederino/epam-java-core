@@ -8,61 +8,70 @@ import ru.epam.javacore.homework_11_file.cargo.service.CargoService;
 import ru.epam.javacore.homework_11_file.carrier.domain.Carrier;
 import ru.epam.javacore.homework_11_file.carrier.domain.CarrierType;
 import ru.epam.javacore.homework_11_file.carrier.service.CarrierService;
+import ru.epam.javacore.homework_11_file.common.solutions.utils.FileUtils;
+import ru.epam.javacore.homework_11_file.common.solutions.utils.JavaDateUtils;
 import ru.epam.javacore.homework_11_file.transportation.domain.Transportation;
 import ru.epam.javacore.homework_11_file.transportation.service.TransportationService;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static ru.epam.javacore.homework_11_file.common.solutions.utils.CollectionUtils.isNotEmpty;
 
-public class FromFileStorageInitor implements StorageInitor {
+public class TextFileStorageInitor implements StorageInitor {
 
     private static final int TOTAL_ENTITIES = 3;
+    private static final String FILE = "/ru/epam/javacore/homework_11_file/Storage.txt";
 
     private final CarrierService carrierService;
     private final CargoService cargoService;
     private final TransportationService transportationService;
 
-    private String pathname = getClass().getResource("Storage.txt").getPath();
     private List<String>[] arrayOfLists = new ArrayList[TOTAL_ENTITIES];
 
-    public FromFileStorageInitor() {
+    public TextFileStorageInitor() {
         carrierService = ServiceHolder.getInstance().getCarrierService();
         cargoService = ServiceHolder.getInstance().getCargoService();
         transportationService = ServiceHolder.getInstance().getTransportationService();
     }
 
-    public FromFileStorageInitor(String path) {
+    public TextFileStorageInitor(String path) {
         carrierService = ServiceHolder.getInstance().getCarrierService();
         cargoService = ServiceHolder.getInstance().getCargoService();
         transportationService = ServiceHolder.getInstance().getTransportationService();
-        pathname = path;
     }
 
     @Override
     public void initStorage() {
-        initFileReader();
-        initCargos();
-        initCarriers();
-        initTransportations();
-        appendTransportationsToCargos();
-    }
-
-    private void initFileReader() {
-        if (pathname != null && !pathname.isEmpty()) {
-            readFile();
-        } else {
-            System.out.println("Pathname is not set, abort!");
+        File file = null;
+        try {
+            file = getFileWithInitData();
+            if (file != null) {
+                parseFileData(file);
+                initCargos();
+                initCarriers();
+                initTransportations();
+                appendTransportationsToCargos();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (file != null) {
+                file.delete();
+            }
         }
     }
 
-    private void readFile() {
-        File file = new File(pathname);
+    private File getFileWithInitData() throws IOException {
+        return FileUtils.createFileFromResource("storage", "txt", FILE);
+    }
+
+    private void parseFileData(File file) {
         try (BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(file)
         )) {
@@ -92,7 +101,11 @@ public class FromFileStorageInitor implements StorageInitor {
             if (line.contains("CLOTHES")) {
                 cargoService.save(createClothesCargo(props));
             } else {
-                cargoService.save(createFoodCargo(props));
+                try {
+                    cargoService.save(createFoodCargo(props));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -106,11 +119,13 @@ public class FromFileStorageInitor implements StorageInitor {
         return cargo;
     }
 
-    private FoodCargo createFoodCargo(String[] props) {
+    private FoodCargo createFoodCargo(String[] props) throws ParseException {
         FoodCargo cargo = new FoodCargo();
         cargo.setName(props[1]);
         cargo.setWeight(Integer.parseInt(props[2]));
-        cargo.setExpirationDate(new Date(props[3]));
+
+
+        cargo.setExpirationDate(JavaDateUtils.valueOf(props[3].trim()));
         cargo.setStoreTemperature(Integer.parseInt(props[props.length - 1]));
 
         return cargo;
@@ -178,11 +193,4 @@ public class FromFileStorageInitor implements StorageInitor {
         cargo.setTransportations(transportations);
     }
 
-    public String getPathname() {
-        return pathname;
-    }
-
-    public void setPathname(String pathname) {
-        this.pathname = pathname;
-    }
 }

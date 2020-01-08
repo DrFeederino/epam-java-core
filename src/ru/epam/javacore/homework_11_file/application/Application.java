@@ -10,8 +10,8 @@ import ru.epam.javacore.homework_11_file.carrier.service.CarrierService;
 import ru.epam.javacore.homework_11_file.common.solutions.search.OrderType;
 import ru.epam.javacore.homework_11_file.common.solutions.utils.CollectionUtils;
 import ru.epam.javacore.homework_11_file.storage.initor.StorageInitor;
+import ru.epam.javacore.homework_11_file.storage.initor.StorageInitorFactory;
 import ru.epam.javacore.homework_11_file.storage.initor.StorageInitorType;
-import ru.epam.javacore.homework_11_file.storage.initor.StorageInitorWrapper;
 import ru.epam.javacore.homework_11_file.transportation.service.TransportationService;
 
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class Application {
         //demoSortOperations();
         //demoExceptions();
 
-        StorageInitor storageInitor = StorageInitorWrapper.initStorageType(StorageInitorType.FILE);
+        StorageInitor storageInitor = StorageInitorFactory.getStorageInitor(StorageInitorType.FILE);
         //storageInitor = StorageInitorWrapper.initStorageType(StorageInitorType.FILE, "PATH_TO_FILE.txt");
         storageInitor.initStorage();
         printStorageData();
