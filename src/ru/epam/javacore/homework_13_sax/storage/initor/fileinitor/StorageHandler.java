@@ -31,9 +31,6 @@ public class StorageHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         stringBuilder.setLength(0);
         switch (qName) {
-            case "data": {
-                break;
-            }
             case "cargos": {
                 cargos = new LinkedHashMap<>();
                 break;
@@ -47,40 +44,18 @@ public class StorageHandler extends DefaultHandler {
                 break;
             }
             case "cargo": {
-                id = attributes.getValue("id");
-                String type = attributes.getValue("type");
-                if ("food".equalsIgnoreCase(type)) {
-                    foodCargo = new FoodCargo();
-                } else if ("clothers".equalsIgnoreCase(type)) {
-                    clothersCargo = new ClothersCargo();
-                }
+                setCargo(attributes);
                 break;
             }
             case "carrier": {
-                carrier = new Carrier();
-                id = attributes.getValue("id");
+                setCarrier(attributes);
                 break;
             }
             case "transportation": {
-                parsedTransportation = new BaseFileInitor.ParsedTransportation();
-                transportation = new Transportation();
-                cargoRef = attributes.getValue("cargoref");
-                carrierRef = attributes.getValue("carrierref");
-                parsedTransportation.setCargoRef(cargoRef);
-                parsedTransportation.setCarrierRef(carrierRef);
+                setTransportation(attributes);
                 break;
             }
-            case "name":
-            case "weight":
-            case "expirationDate":
-            case "storeTemperature":
-            case "size":
-            case "material":
-            case "type":
-            case "address":
-            case "billto":
-            case "transportationBeginDate":
-            case "description":
+            default:
                 break;
         }
     }
@@ -90,31 +65,15 @@ public class StorageHandler extends DefaultHandler {
         String data = stringBuilder.toString();
         switch (qName) {
             case "cargo": {
-                if (foodCargo == null) {
-                    cargos.put(id, clothersCargo);
-                    id = null;
-                    clothersCargo = null;
-                } else {
-                    cargos.put(id, foodCargo);
-                    id = null;
-                    foodCargo = null;
-                }
+                putCargoInMap();
                 break;
             }
             case "carrier": {
-                carriers.put(id, carrier);
-                id = null;
-                carrier = null;
+                putCarrierInMap();
                 break;
             }
             case "transportation": {
-                parsedTransportation.setTransportation(transportation);
-                transportations.add(parsedTransportation);
-                id = null;
-                transportation = null;
-                parsedTransportation = null;
-                carrierRef = null;
-                cargoRef = null;
+                putTransportationInList();
                 break;
             }
             case "name": {
@@ -190,9 +149,7 @@ public class StorageHandler extends DefaultHandler {
                 transportation.setDescription(data);
                 break;
             }
-            case "cargos":
-            case "carriers":
-            case "transportations":
+            default:
                 break;
         }
     }
@@ -201,6 +158,53 @@ public class StorageHandler extends DefaultHandler {
     public void characters(char[] ch, int start, int length) throws SAXException {
         String data = new String(ch, start, length);
         stringBuilder.append(data);
+    }
+
+    public void setCargo(Attributes attributes) {
+        id = attributes.getValue("id");
+        String type = attributes.getValue("type");
+        if ("food".equalsIgnoreCase(type)) {
+            foodCargo = new FoodCargo();
+        } else if ("clothers".equalsIgnoreCase(type)) {
+            clothersCargo = new ClothersCargo();
+        }
+    }
+
+    public void setCarrier(Attributes attributes) {
+        carrier = new Carrier();
+        id = attributes.getValue("id");
+    }
+
+    public void setTransportation(Attributes attributes) {
+        parsedTransportation = new BaseFileInitor.ParsedTransportation();
+        transportation = new Transportation();
+        cargoRef = attributes.getValue("cargoref");
+        carrierRef = attributes.getValue("carrierref");
+        parsedTransportation.setCargoRef(cargoRef);
+        parsedTransportation.setCarrierRef(carrierRef);
+    }
+
+    public void putCargoInMap() {
+        cargos.put(id, foodCargo == null ? clothersCargo : foodCargo);
+        id = null;
+        foodCargo = null;
+        clothersCargo = null;
+    }
+
+    public void putCarrierInMap() {
+        carriers.put(id, carrier);
+        id = null;
+        carrier = null;
+    }
+
+    public void putTransportationInList() {
+        parsedTransportation.setTransportation(transportation);
+        transportations.add(parsedTransportation);
+        id = null;
+        transportation = null;
+        parsedTransportation = null;
+        carrierRef = null;
+        cargoRef = null;
     }
 
     public Map<String, Cargo> getCargos() {

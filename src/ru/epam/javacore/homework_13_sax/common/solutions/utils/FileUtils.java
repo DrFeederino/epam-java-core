@@ -1,5 +1,7 @@
 package ru.epam.javacore.homework_13_sax.common.solutions.utils;
 
+import ru.epam.javacore.homework_13_sax.application.Application;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +17,7 @@ public final class FileUtils {
     }
 
     public static File createFileFromResource(String fileNamePrefix, String fileNameSuffix, String resourcePath) throws IOException {
-        try (InputStream inputStream = File.class.getResourceAsStream(resourcePath)) {
+        try (InputStream inputStream = Application.class.getResourceAsStream(resourcePath)) {
             Path tempFile = Files.createTempFile(fileNamePrefix, fileNameSuffix);
             Files.copy(inputStream, tempFile, REPLACE_EXISTING);
             return tempFile.toFile();

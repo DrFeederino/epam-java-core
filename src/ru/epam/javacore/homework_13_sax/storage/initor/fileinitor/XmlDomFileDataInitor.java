@@ -27,7 +27,7 @@ import static ru.epam.javacore.homework_13_sax.common.solutions.utils.xml.dom.Xm
 
 public class XmlDomFileDataInitor extends BaseFileInitor {
 
-    private static final String FILE = "/ru/epam/javacore/homework_12_dom/xmldata.xml";
+    private static final String FILE = "/ru/epam/javacore/homework_13_sax/xmldata.xml";
 
 
     @Override

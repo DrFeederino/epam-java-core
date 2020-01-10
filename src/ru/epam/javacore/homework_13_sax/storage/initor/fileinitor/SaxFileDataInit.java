@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SaxFileDataInit extends BaseFileInitor {
-    private static final String FILE = "/ru/epam/javacore/homework_12_dom/xmldata.xml";
-
+    private static final String FILE = "/ru/epam/javacore/homework_13_sax/xmldata.xml";
 
     @Override
     public void initStorage() throws InitStorageException {
