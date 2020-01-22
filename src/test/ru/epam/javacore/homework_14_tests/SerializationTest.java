@@ -1,7 +1,9 @@
-package test.ru.epam.javacore.homework_15_tests;
+package test.ru.epam.javacore.homework_14_tests;
 
 import main.ru.epam.javacore.homework_13_sax.cargo.domain.ClothersCargo;
 import main.ru.epam.javacore.homework_13_sax.cargo.domain.FoodCargo;
+import main.ru.epam.javacore.homework_13_sax.carrier.domain.Carrier;
+import main.ru.epam.javacore.homework_13_sax.carrier.domain.CarrierType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +15,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -83,6 +86,43 @@ public class SerializationTest {
         List<ClothersCargo> listFromFile = readSerializedObjectFromFile(pathToFile);
         Assertions.assertTrue(areClothesEqual(list, listFromFile));
     }
+
+    @Test
+    public void testCarrier() throws Exception {
+        Carrier carrier = prepareCarrier();
+        String pathToFile = temporaryFile.toAbsolutePath().toString();
+
+        serializeToFile(carrier, pathToFile);
+        Carrier carrierFromFile = readSerializedObjectFromFile(pathToFile);
+
+        Assertions.assertTrue(areCarriersEqual(carrier, carrierFromFile));
+    }
+
+    @Test
+    public void testCollectionCarrier() throws Exception {
+        List<Carrier> list = new ArrayList<>();
+        String pathToFile = temporaryFile.toAbsolutePath().toString();
+
+        for (int i = 0; i < SAMPLE_SIZE; i++) {
+            list.add(prepareCarrier());
+        }
+
+        serializeToFile(list, pathToFile);
+        List<Carrier> listFromFile = readSerializedObjectFromFile(pathToFile);
+
+        Assertions.assertTrue(areCarriersEqual(list, listFromFile));
+    }
+
+    private Carrier prepareCarrier() {
+        Carrier carrier = new Carrier();
+        carrier.setId(randLong());
+        carrier.setName(randString());
+        carrier.setCarrierType(randType());
+        carrier.setAddress(randString());
+
+        return carrier;
+    }
+
 
     private ClothersCargo prepareClothes() {
         ClothersCargo clothersCargo = new ClothersCargo();
@@ -185,6 +225,44 @@ public class SerializationTest {
             }
             return true;
         }
+    }
+
+    private boolean areCarriersEqual(Carrier a, Carrier b) {
+        if (a == null && b == null) {
+            return true;
+        } else if (a != null && b == null) {
+            return false;
+        } else if (a == null) {
+            return false;
+        } else {
+            return STRING_COMPARATOR.compare(a.getName(), b.getName()) == 0
+                    && LONG_COMPARATOR.compare(a.getId(), b.getId()) == 0
+                    && STRING_COMPARATOR.compare(a.getAddress(), b.getAddress()) == 0
+                    && a.getCarrierType() == b.getCarrierType();
+        }
+    }
+
+    private boolean areCarriersEqual(List<Carrier> a, List<Carrier> b) {
+        if (a == null && b == null) {
+            return true;
+        } else if (a != null && b == null) {
+            return false;
+        } else if (a == null) {
+            return false;
+        } else if (a.size() != b.size()) {
+            return false;
+        } else {
+            for (int i = 0; i < a.size(); i++) {
+                if (!areCarriersEqual(a.get(i), b.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    private CarrierType randType() {
+        return Arrays.asList(CarrierType.values()).get(RandomUtils.nextInt(0, 4));
     }
 
     private String randString() {

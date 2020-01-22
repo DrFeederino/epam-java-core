@@ -18,9 +18,7 @@
             <expirationDate>11.11.2020</expirationDate>
             <storeTemperature>-20</storeTemperature>
         </cargo>
-
     </cargos>
-
     <carriers>
         <carrier id="1_b">
             <name>YOUR_DELIVERY</name>
@@ -33,8 +31,6 @@
             <type>PLANE</type>
         </carrier>
     </carriers>
-
-
     <transportations>
         <transportation cargoref="1_a" carrierref="1_b">
             <billto>Ivanov</billto>
@@ -47,7 +43,6 @@
             <transportationBeginDate>11.11.2011</transportationBeginDate>
             <description>Fragile</description>
         </transportation>
-
         <transportation cargoref="3_a" carrierref="2_b">
             <billto>Sidorov</billto>
             <transportationBeginDate>01.01.2017</transportationBeginDate>
