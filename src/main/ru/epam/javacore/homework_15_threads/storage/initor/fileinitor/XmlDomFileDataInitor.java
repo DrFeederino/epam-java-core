@@ -31,42 +31,27 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
     private static Map<String, Cargo> cargoMap = null;
     private static Map<String, Carrier> carrierMap = null;
     private static List<ParsedTransportation> transportations = null;
-    private volatile static Document document = null;
-
-    private static synchronized Document getDocument() {
-        return XmlDomFileDataInitor.document;
-    }
-
-    private static synchronized void setDocument(Document doc) {
-        document = doc;
-    }
 
     @Override
     public void initStorage() throws InitStorageException {
         File file = null;
         try {
             file = getFileWithInitData();
-            setDocument(XmlDomUtils.getDocument(file));
+            Document document = XmlDomUtils.getDocument(file);
 
             Runnable cargoInit = () -> {
                 try {
-                    parseCargos();
+                    parseCargos(document);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             };
 
-            Runnable carrierInit = () -> {
-                try {
-                    parseCarriers();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            };
+            Runnable carrierInit = () -> parseCarriers(document);
 
             Runnable transportationInit = () -> {
                 try {
-                    parseTransportationsData();
+                    parseTransportationsData(document);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -104,10 +89,10 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
         return FileUtils.createFileFromResource("storage", "txt", FILE);
     }
 
-    private void parseCargos() throws ParseException {
+    private void parseCargos(Document document) throws ParseException {
         cargoMap = new LinkedHashMap<>();
 
-        Element root = getOnlyElement(getDocument(), "cargos");
+        Element root = getOnlyElement(document, "cargos");
         NodeList xmlCargos = root.getElementsByTagName("cargo");
 
         if (xmlCargos != null) {
@@ -146,10 +131,10 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
         return new SimpleEntry<>(id, cargo);
     }
 
-    private void parseCarriers() throws ParseException {
+    private void parseCarriers(Document document) {
         carrierMap = new LinkedHashMap<>();
 
-        Element root = getOnlyElement(getDocument(), "carriers");
+        Element root = getOnlyElement(document, "carriers");
         NodeList xmlCarriers = root.getElementsByTagName("carrier");
 
         if (xmlCarriers != null) {
@@ -174,10 +159,10 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
         return new SimpleEntry<>(id, carrier);
     }
 
-    private void parseTransportationsData() throws ParseException {
+    private void parseTransportationsData(Document document) throws ParseException {
         transportations = new ArrayList<>();
 
-        Element root = getOnlyElement(getDocument(), "transportations");
+        Element root = getOnlyElement(document, "transportations");
         NodeList xmlTransportations = root.getElementsByTagName("transportation");
 
         if (xmlTransportations != null) {
