@@ -6,7 +6,7 @@
             <expirationDate>20.12.2025</expirationDate>
             <storeTemperature>-50</storeTemperature>
         </cargo>
-        <cargo id="2_a" type="CLOTHERS">
+        <cargo id="2_a" type="CLOTHES">
             <name>JEANS</name>
             <weight>200</weight>
             <size>XXL</size>
