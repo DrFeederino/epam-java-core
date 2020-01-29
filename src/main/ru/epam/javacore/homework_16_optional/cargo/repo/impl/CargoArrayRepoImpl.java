@@ -97,7 +97,7 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
             }
         }
 
-        return Optional.ofNullable(null);
+        return null;
     }
 
     @Override

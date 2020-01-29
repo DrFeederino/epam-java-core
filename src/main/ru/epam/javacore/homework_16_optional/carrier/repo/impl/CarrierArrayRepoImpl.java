@@ -106,7 +106,7 @@ public class CarrierArrayRepoImpl implements CarrierRepo {
             }
         }
 
-        return Optional.ofNullable(null);
+        return null;
     }
 
     @Override

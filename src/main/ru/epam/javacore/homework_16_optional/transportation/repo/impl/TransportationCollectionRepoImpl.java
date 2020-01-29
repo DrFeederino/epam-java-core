@@ -26,7 +26,7 @@ public class TransportationCollectionRepoImpl implements TransportationRepo {
             }
         }
 
-        return Optional.ofNullable(null);
+        return null;
     }
 
     @Override
