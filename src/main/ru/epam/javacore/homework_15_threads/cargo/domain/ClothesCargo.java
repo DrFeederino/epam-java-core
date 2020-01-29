@@ -1,13 +1,13 @@
 package main.ru.epam.javacore.homework_15_threads.cargo.domain;
 
-public class ClothersCargo extends Cargo {
+public class ClothesCargo extends Cargo {
 
     private String size;
     private String material;
 
     @Override
     public CargoType getCargoType() {
-        return CargoType.CLOTHERS;
+        return CargoType.CLOTHES;
     }
 
     public String getSize() {

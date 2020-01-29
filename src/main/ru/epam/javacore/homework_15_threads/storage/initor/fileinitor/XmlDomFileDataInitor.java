@@ -2,7 +2,7 @@ package main.ru.epam.javacore.homework_15_threads.storage.initor.fileinitor;
 
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.Cargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.CargoType;
-import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothersCargo;
+import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothesCargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.FoodCargo;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.Carrier;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.CarrierType;
@@ -119,10 +119,10 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
                     Integer.parseInt(getOnlyElementTextContent(cargoElem, "storeTemperature")));
             cargo = foodCargo;
         } else {
-            ClothersCargo clothersCargo = new ClothersCargo();
-            clothersCargo.setMaterial(getOnlyElementTextContent(cargoElem, "material"));
-            clothersCargo.setSize(getOnlyElementTextContent(cargoElem, "size"));
-            cargo = clothersCargo;
+            ClothesCargo clothesCargo = new ClothesCargo();
+            clothesCargo.setMaterial(getOnlyElementTextContent(cargoElem, "material"));
+            clothesCargo.setSize(getOnlyElementTextContent(cargoElem, "size"));
+            cargo = clothesCargo;
         }
 
         cargo.setName(getOnlyElementTextContent(cargoElem, "name"));

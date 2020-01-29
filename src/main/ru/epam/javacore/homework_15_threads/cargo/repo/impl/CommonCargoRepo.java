@@ -37,7 +37,6 @@ public abstract class CommonCargoRepo implements CargoRepo {
         //NAME, WEIGHT
         for (CargoField cargoField : FIELDS_ORDER_TO_SORT_CARGOS) {
             if (searchCondition.shouldSortByField(cargoField)) {
-
                 if (result == null) {
                     result = getComparatorForCargoField(cargoField);
                 } else {
@@ -46,14 +45,12 @@ public abstract class CommonCargoRepo implements CargoRepo {
             }
         }
 
-
         return result;
     }
 
 
     private Comparator<Cargo> getComparatorForCargoField(CargoField cargoField) {
         switch (cargoField) {
-
             case NAME: {
                 return CARGO_NAME_COMPARATOR;
             }

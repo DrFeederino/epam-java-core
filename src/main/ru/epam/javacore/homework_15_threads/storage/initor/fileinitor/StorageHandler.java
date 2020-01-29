@@ -1,7 +1,7 @@
 package main.ru.epam.javacore.homework_15_threads.storage.initor.fileinitor;
 
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.Cargo;
-import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothersCargo;
+import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothesCargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.FoodCargo;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.Carrier;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.CarrierType;
@@ -16,7 +16,7 @@ import java.util.*;
 public class StorageHandler extends DefaultHandler {
     private Map<String, Cargo> cargos;
     private FoodCargo foodCargo;
-    private ClothersCargo clothersCargo;
+    private ClothesCargo clothesCargo;
     private Map<String, Carrier> carriers;
     private Carrier carrier;
     private List<BaseFileInitor.ParsedTransportation> transportations;
@@ -80,28 +80,28 @@ public class StorageHandler extends DefaultHandler {
                 if (carrier != null) {
                     carrier.setName(data);
                 } else {
-                    if (clothersCargo == null) {
+                    if (clothesCargo == null) {
                         foodCargo.setName(data);
                     } else {
-                        clothersCargo.setName(data);
+                        clothesCargo.setName(data);
                     }
                 }
                 break;
             }
             case "weight": {
-                if (clothersCargo == null) {
+                if (clothesCargo == null) {
                     foodCargo.setWeight(Integer.valueOf(data));
                 } else {
-                    clothersCargo.setWeight(Integer.valueOf(data));
+                    clothesCargo.setWeight(Integer.valueOf(data));
                 }
                 break;
             }
             case "size": {
-                clothersCargo.setSize(data);
+                clothesCargo.setSize(data);
                 break;
             }
             case "material": {
-                clothersCargo.setMaterial(data);
+                clothesCargo.setMaterial(data);
                 break;
             }
             case "expirationDate": {
@@ -166,7 +166,7 @@ public class StorageHandler extends DefaultHandler {
         if ("food".equalsIgnoreCase(type)) {
             foodCargo = new FoodCargo();
         } else if ("clothers".equalsIgnoreCase(type)) {
-            clothersCargo = new ClothersCargo();
+            clothesCargo = new ClothesCargo();
         }
     }
 
@@ -185,10 +185,10 @@ public class StorageHandler extends DefaultHandler {
     }
 
     public void putCargoInMap() {
-        cargos.put(id, foodCargo == null ? clothersCargo : foodCargo);
+        cargos.put(id, foodCargo == null ? clothesCargo : foodCargo);
         id = null;
         foodCargo = null;
-        clothersCargo = null;
+        clothesCargo = null;
     }
 
     public void putCarrierInMap() {

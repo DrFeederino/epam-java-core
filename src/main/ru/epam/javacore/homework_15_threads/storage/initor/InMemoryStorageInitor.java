@@ -2,7 +2,7 @@ package main.ru.epam.javacore.homework_15_threads.storage.initor;
 
 import main.ru.epam.javacore.homework_15_threads.application.serviceholder.ServiceHolder;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.Cargo;
-import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothersCargo;
+import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothesCargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.FoodCargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.service.CargoService;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.Carrier;
@@ -48,8 +48,8 @@ public class InMemoryStorageInitor implements StorageInitor {
         }
     }
 
-    private ClothersCargo createClothersCargo(int index) {
-        ClothersCargo cargo = new ClothersCargo();
+    private ClothesCargo createClothersCargo(int index) {
+        ClothesCargo cargo = new ClothesCargo();
         cargo.setSize("Clothers_Size_" + index);
         cargo.setName("Jeans");
         cargo.setWeight(ThreadLocalRandom.current().nextInt(1, 100 + 1));

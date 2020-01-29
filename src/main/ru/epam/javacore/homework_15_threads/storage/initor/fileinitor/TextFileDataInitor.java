@@ -2,7 +2,7 @@ package main.ru.epam.javacore.homework_15_threads.storage.initor.fileinitor;
 
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.Cargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.CargoType;
-import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothersCargo;
+import main.ru.epam.javacore.homework_15_threads.cargo.domain.ClothesCargo;
 import main.ru.epam.javacore.homework_15_threads.cargo.domain.FoodCargo;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.Carrier;
 import main.ru.epam.javacore.homework_15_threads.carrier.domain.CarrierType;
@@ -83,11 +83,11 @@ public class TextFileDataInitor extends BaseFileInitor {
             int weight = Integer.parseInt(cargoData[index++].trim());
 
             Cargo cargo;
-            if (CargoType.CLOTHERS.equals(cargoType)) {
-                ClothersCargo clothersCargo = new ClothersCargo();
-                clothersCargo.setSize(cargoData[index++].trim());
-                clothersCargo.setMaterial(cargoData[index].trim());
-                cargo = clothersCargo;
+            if (CargoType.CLOTHES.equals(cargoType)) {
+                ClothesCargo clothesCargo = new ClothesCargo();
+                clothesCargo.setSize(cargoData[index++].trim());
+                clothesCargo.setMaterial(cargoData[index].trim());
+                cargo = clothesCargo;
             } else {
                 FoodCargo foodCargo = new FoodCargo();
                 foodCargo.setExpirationDate(JavaUtilDateUtils.valueOf(cargoData[index++].trim()));
